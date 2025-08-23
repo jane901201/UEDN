@@ -79,6 +79,7 @@ Binaries/
 DerivedDataCache/
 Intermediate/
 Saved/
+Content/LevelPrototyping/
 
 # IDE
 .idea/
