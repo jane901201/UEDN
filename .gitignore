@@ -80,6 +80,8 @@ DerivedDataCache/
 Intermediate/
 Saved/
 Content/LevelPrototyping/
+Content/Characters/Mannequins/
+
 
 # IDE
 .idea/
