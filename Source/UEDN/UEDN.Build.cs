@@ -8,7 +8,11 @@ public class UEDN : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] 
+		{
+			"Core", "CoreUObject", "Engine", "InputCore", 
+				"HTTP", "Json", "JsonUtilities", "OpenSSL"
+		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

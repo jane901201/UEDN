@@ -95,3 +95,6 @@ Build/Android/google-services.json
 
 # Unreal local secrets
 Config/Endpoints.Local.ini
+
+#claude
+.claude/
