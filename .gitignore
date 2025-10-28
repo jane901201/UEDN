@@ -87,5 +87,11 @@ Content/Characters/Mannequins/
 .idea/
 .vscode/
 
+# JetBrains Rider
+Plugins/Developer/RiderLink/
+
 # Firebase config
 Build/Android/google-services.json
+
+# Unreal local secrets
+Config/Endpoints.Local.ini
