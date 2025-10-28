@@ -86,3 +86,6 @@ Content/Characters/Mannequins/
 # IDE
 .idea/
 .vscode/
+
+# Firebase config
+Build/Android/google-services.json
