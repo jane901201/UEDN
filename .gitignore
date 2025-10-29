@@ -87,6 +87,7 @@ Content/Characters/Mannequins/
 .idea/
 .vscode/
 Plugins/VisualStudioTools/*
+UpgradeLog.htm
 
 # JetBrains Rider
 Plugins/Developer/RiderLink/
