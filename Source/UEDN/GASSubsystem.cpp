@@ -9,12 +9,19 @@
 #include "CoreMinimal.h"
 #include "JsonObjectConverter.h"
 
-#define UI UI_ST
+// #define UI UI_ST
+// THIRD_PARTY_INCLUDES_START
+// #include "openssl/evp.h"
+// #include "openssl/hmac.h"
+// THIRD_PARTY_INCLUDES_END
+// #undef UI
+
 THIRD_PARTY_INCLUDES_START
+#define UI UI_ST
 #include "openssl/evp.h"
+#undef UI
 #include "openssl/hmac.h"
 THIRD_PARTY_INCLUDES_END
-#undef UI
 
 void UGASSubsystem::SayHello()
 {

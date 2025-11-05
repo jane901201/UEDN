@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GASSubsystem.h"
 #include "UMyGameSubsystem.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "MyBlueprintFunctionLibrary.generated.h"
@@ -21,4 +22,7 @@ class UEDN_API UMyBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
 	
         UFUNCTION(BlueprintCallable, Category = "Demo Test", meta = (WorldContext = "WorldContextObject"))
         static UUMyGameSubsystem* GetMyGameSubsystem(const UObject* WorldContextObject);
+
+		UFUNCTION(BlueprintCallable, Category= "Google Apps Script", meta = (WorldContext = "WorldContextObject"))
+		static UGASSubsystem* GetGASSubsystem(const UObject* WorldContextObject);
 };

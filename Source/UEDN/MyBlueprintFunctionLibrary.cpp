@@ -18,5 +18,14 @@ UUMyGameSubsystem* UMyBlueprintFunctionLibrary::GetMyGameSubsystem(const UObject
 	{
    		return GameInstance->GetSubsystem<UUMyGameSubsystem>();
 	}
-return nullptr;
+	return nullptr;
+}
+
+UGASSubsystem* UMyBlueprintFunctionLibrary::GetGASSubsystem(const UObject* WorldContextObject)
+{
+	if (UGameInstance* GameInstance = WorldContextObject->GetWorld()->GetGameInstance())
+	{
+		return GameInstance->GetSubsystem<UGASSubsystem>();
+	}
+	return nullptr;
 }

@@ -7,14 +7,28 @@ public class UEDN : ModuleRules
 	public UEDN(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-	
-		PublicDependencyModuleNames.AddRange(new string[] 
+
+		PublicDependencyModuleNames.AddRange(new string[]
 		{
-			"Core", "CoreUObject", "Engine", "InputCore", 
-				"HTTP", "Json", "JsonUtilities", "OpenSSL"
+			"Core", "CoreUObject", "Engine", "InputCore",
+				"HTTP", "Json", "JsonUtilities", "OpenSSL", 
+				"PhysicsCore"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
+
+		// Add Windows system libraries required by OpenSSL
+		if (Target.Platform == UnrealTargetPlatform.Win64)
+		{
+			PublicSystemLibraries.AddRange(new string[]
+			{
+				"Crypt32",
+				"Ws2_32",
+				"Advapi32",
+				"User32",
+				"Gdi32"
+			});
+		}
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
