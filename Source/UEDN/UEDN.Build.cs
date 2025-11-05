@@ -11,24 +11,10 @@ public class UEDN : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
 			"Core", "CoreUObject", "Engine", "InputCore",
-				"HTTP", "Json", "JsonUtilities", "OpenSSL", 
-				"PhysicsCore"
+				"HTTP", "Json", "JsonUtilities"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
-
-		// Add Windows system libraries required by OpenSSL
-		if (Target.Platform == UnrealTargetPlatform.Win64)
-		{
-			PublicSystemLibraries.AddRange(new string[]
-			{
-				"Crypt32",
-				"Ws2_32",
-				"Advapi32",
-				"User32",
-				"Gdi32"
-			});
-		}
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
