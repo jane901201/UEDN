@@ -1,0 +1,29 @@
+name: Block Endpoints.Local.ini (any location)
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+jobs:
+  block-endpoints-local:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fail if any Endpoints.Local.ini is tracked anywhere
+        run: |
+          FILES=$(git ls-files | grep -i "Endpoints.Local.ini" || true)
+
+          if [ ! -z "$FILES" ]; then
+            echo "🚫 ERROR: Endpoints.Local.ini must NEVER be committed."
+            echo "Found these tracked files:"
+            echo "$FILES"
+            exit 1
+          fi
+
+          echo "✅ OK: No Endpoints.Local.ini found."

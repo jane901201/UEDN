@@ -4,7 +4,8 @@
 #include "MyBlueprintFunctionLibrary.h"
 #include "Engine/World.h"
 #include "Engine/GameInstance.h"
-
+#include "Dom/JsonObject.h"
+#include "Serialization/JsonSerializer.h"
 
 FString UMyBlueprintFunctionLibrary::text(FString Name)
 {
@@ -21,11 +22,67 @@ UUMyGameSubsystem* UMyBlueprintFunctionLibrary::GetMyGameSubsystem(const UObject
 	return nullptr;
 }
 
-//UGASSubsystem* UMyBlueprintFunctionLibrary::GetGASSubsystem(const UObject* WorldContextObject)
-//{
-//	if (UGameInstance* GameInstance = WorldContextObject->GetWorld()->GetGameInstance())
-//	{
-//		return GameInstance->GetSubsystem<UGASSubsystem>();
-//	}
-//	return nullptr;
-//}
+bool UMyBlueprintFunctionLibrary::ParseLeaderboardJson(const FString& Json, TArray<FUserRow>& OutRows)
+{
+	OutRows.Reset();
+
+	TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Json);
+
+	TArray<TSharedPtr<FJsonValue>> RootArray;
+	if (!FJsonSerializer::Deserialize(Reader, RootArray))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ParseLeaderboardJson: Deserialize failed"));
+		return false;
+	}
+
+	for (const TSharedPtr<FJsonValue>& Value : RootArray)
+	{
+		if (!Value.IsValid() || Value->Type != EJson::Object)
+		{
+			continue;
+		}
+
+		TSharedPtr<FJsonObject> Obj = Value->AsObject();
+		if (!Obj.IsValid())
+		{
+			continue;
+		}
+
+		FUserRow Row;
+
+		Obj->TryGetStringField(TEXT("uID"), Row.UID);
+
+		// Name can be number or string in your JSON
+		FString NameString;
+		if (Obj->TryGetStringField(TEXT("Name"), NameString))
+		{
+			Row.Name = NameString;
+		}
+		else
+		{
+			double NameNumber = 0.0;
+			if (Obj->TryGetNumberField(TEXT("Name"), NameNumber))
+			{
+				Row.Name = FString::FromInt(static_cast<int32>(NameNumber));
+			}
+		}
+
+		int32 Rank = 0;
+		Obj->TryGetNumberField(TEXT("Rank"), Rank);
+		Row.Rank = Rank;
+
+		int32 Times = 0;
+		Obj->TryGetNumberField(TEXT("Times"), Times);
+		Row.Times = Times;
+
+		// FString TimestampString;
+		// if (Obj->TryGetStringField(TEXT("Timestamp"), TimestampString))
+		// {
+		// 	FDateTime::ParseIso8601(*TimestampString, Row.Timestamp);
+		// }
+
+		OutRows.Add(Row);
+	}
+	
+	return true;
+}
