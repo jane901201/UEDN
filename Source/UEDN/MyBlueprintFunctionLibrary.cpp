@@ -28,14 +28,22 @@ bool UMyBlueprintFunctionLibrary::ParseLeaderboardJson(const FString& Json, TArr
 
 	TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Json);
 
-	TArray<TSharedPtr<FJsonValue>> RootArray;
-	if (!FJsonSerializer::Deserialize(Reader, RootArray))
+	TSharedPtr<FJsonObject> RootObject;
+	if (!FJsonSerializer::Deserialize(Reader, RootObject) || !RootObject.IsValid())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("ParseLeaderboardJson: Deserialize failed"));
 		return false;
 	}
 
-	for (const TSharedPtr<FJsonValue>& Value : RootArray)
+	// Get the "data" array from the root object
+	const TArray<TSharedPtr<FJsonValue>>* DataArray;
+	if (!RootObject->TryGetArrayField(TEXT("data"), DataArray))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ParseLeaderboardJson: 'data' field not found"));
+		return false;
+	}
+
+	for (const TSharedPtr<FJsonValue>& Value : *DataArray)
 	{
 		if (!Value.IsValid() || Value->Type != EJson::Object)
 		{
